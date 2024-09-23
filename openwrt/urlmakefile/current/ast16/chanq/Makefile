@@ -8,12 +8,11 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=asterisk-chan-quectel
-PKG_VERSION:=master
-PKG_RELEASE:=master
+PKG_VERSION:=3.5
+PKG_RELEASE:=3.5
 
-PKG_SOURCE:=master.zip
-PKG_SOURCE_URL:=https://github.com/IchthysMaranatha/asterisk-chan-quectel/archive/refs/heads/
-PKG_CAT:=unzip
+PKG_SOURCE:=3.5.tar.gz
+PKG_SOURCE_URL:=https://github.com/IchthysMaranatha/asterisk-chan-quectel/archive/refs/tags/
 PKG_HASH:=skip
 
 PKG_FIXUP:=autoreconf
@@ -22,12 +21,6 @@ PKG_LICENSE:=GPL-2.0
 PKG_LICENSE_FILES:=COPYRIGHT.txt LICENSE.txt
 PKG_MAINTAINER:=Jiri Slachta <jiri@slachta.eu>
 
-define Build/Prepare
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(BUILD_VARIANT)/$(PKG_NAME)-$(PKG_VERSION)
-$(CP) ./src/* $(PKG_BUILD_DIR)/
-endef
-
-
 
 MODULES_DIR:=/usr/lib/asterisk/modules
 
@@ -35,24 +28,36 @@ include $(INCLUDE_DIR)/package.mk
 # asterisk-chan-quectel needs iconv
 include $(INCLUDE_DIR)/nls.mk
 
-define Package/$(PKG_NAME)
+define Package/asterisk-chan-quectel/Default
   SUBMENU:=Telephony
   SECTION:=net
-  CATEGORY:=Network
+  CATEGORY:=Utilities
   URL:=https://github.com/IchthysMaranatha/asterisk-chan-quectel
-  DEPENDS:=asterisk $(ICONV_DEPENDS) +kmod-usb-acm +kmod-usb-serial +kmod-usb-serial-option +libusb-1.0 +alsa-lib
+  DEPENDS:=$(ICONV_DEPENDS) +kmod-usb-acm +kmod-usb-serial +kmod-usb-serial-option +libusb-1.0 +usb-modeswitch +alsa-lib
   TITLE:=Asterisk Mobile Telephony Module
 endef
 
-define Package/$(PKG_NAME)/description
- Asterisk channel driver for mobile telephony.
+define Package/asterisk16-chan-quectel
+$(call Package/asterisk-chan-quectel/Default)
+  DEPENDS+=asterisk16
+  VARIANT:=asterisk16
 endef
+
+define Package/description/Default
+ Asterisk channel driver for Mobile Telephony.
+endef
+
+Package/asterisk16-chan-quectel/description = $(Package/description/Default)
+
+ifeq ($(BUILD_VARIANT),asterisk16)
+  CHAN_quectel_AST_HEADERS:=$(STAGING_DIR)/usr/include/asterisk-16/include
+  CONFIGURE_ARGS+= \
+	  --with-astversion=16
+endif
 
 
 CONFIGURE_ARGS+= \
-	--with-asterisk=$(STAGING_DIR)/usr/include \
-		--with-astversion=16 \
-		--with-iconv=$(ICONV_PREFIX)/include
+	--with-asterisk=$(CHAN_quectel_AST_HEADERS)
 
 TARGET_CFLAGS+= \
 	-I$(CHAN_quectel_AST_HEADERS)
@@ -65,17 +70,19 @@ CONFIGURE_VARS += \
 	ac_cv_type_ssize_t=yes
 
 
-define Package/$(PKG_NAME)/conffiles
-	/etc/asterisk/quectel.conf
+define Package/conffiles/Default
+/etc/asterisk/quectel.conf
 endef
 
+Package/asterisk16-chan-quectel/conffiles = $(Package/conffiles/Default)
 
-define Package/$(PKG_NAME)/install
+define Package/Install/Default
 	$(INSTALL_DIR) $(1)/etc/asterisk
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/etc/quectel.conf $(1)/etc/asterisk
 	$(INSTALL_DIR) $(1)$(MODULES_DIR)
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/chan_quectel.so $(1)$(MODULES_DIR)
 endef
 
+Package/asterisk16-chan-quectel/install = $(Package/Install/Default)
 
-$(eval $(call BuildPackage,$(PKG_NAME)))
+$(eval $(call BuildPackage,asterisk16-chan-quectel))

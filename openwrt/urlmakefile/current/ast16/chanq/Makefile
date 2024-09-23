@@ -47,7 +47,7 @@ define Package/description/Default
  Asterisk channel driver for Mobile Telephony.
 endef
 
-Package/asterisk16-chan-quectel/description = $(Package/description/Default)
+Package/asterisk-chan-quectel/description = $(Package/description/Default)
 
 ifeq ($(BUILD_VARIANT),asterisk16)
   CHAN_quectel_AST_HEADERS:=$(STAGING_DIR)/usr/include/asterisk-16/include
@@ -74,7 +74,7 @@ define Package/conffiles/Default
 /etc/asterisk/quectel.conf
 endef
 
-Package/asterisk16-chan-quectel/conffiles = $(Package/conffiles/Default)
+Package/asterisk-chan-quectel/conffiles = $(Package/conffiles/Default)
 
 define Package/Install/Default
 	$(INSTALL_DIR) $(1)/etc/asterisk
@@ -83,6 +83,6 @@ define Package/Install/Default
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/chan_quectel.so $(1)$(MODULES_DIR)
 endef
 
-Package/asterisk16-chan-quectel/install = $(Package/Install/Default)
+Package/asterisk-chan-quectel/install = $(Package/Install/Default)
 
-$(eval $(call BuildPackage,asterisk16-chan-quectel))
+$(eval $(call BuildPackage,asterisk-chan-quectel))

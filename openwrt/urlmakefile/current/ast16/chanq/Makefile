@@ -37,7 +37,7 @@ define Package/asterisk-chan-quectel/Default
   TITLE:=Asterisk Mobile Telephony Module
 endef
 
-define Package/asterisk16-chan-quectel
+define Package/asterisk-chan-quectel
 $(call Package/asterisk-chan-quectel/Default)
   DEPENDS+=asterisk16
   VARIANT:=asterisk16

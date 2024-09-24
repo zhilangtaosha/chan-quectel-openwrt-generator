@@ -20,7 +20,7 @@ Openwrt 19 - Asterisk 16
 Openwrt 22 - Asterisk 18
 Openwrt 23 - Asterisk 20 and so on
 
-Provide link to sdk, choose the correct Asterisk version and run the workflow action, in about 10 minutes the binary will be ready for download.
+Provide link to sdk, choose the correct Asterisk version and run the workflow action, in about 10 minutes the ipk will be ready for download. This can be installed or you can use 7zip to manually extract chan_quectel.so for lib replacement
 
 
 

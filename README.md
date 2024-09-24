@@ -1,15 +1,15 @@
 Thanks be to God from Whom are all good things.
 
-This repo helps you to generate a <a href="https://github.com/IchthysMaranatha/asterisk-chan-quectel"> chan-quectel </a> openwrt binary for any platform by running a github action. Fork this repository and then run the github action providing link to openwrt sdk link for the platform required. For example to generate binary for the we826 router running on openwrt 22, you would have to provide sdk link https://downloads.openwrt.org/releases/22.03.3/targets/ramips/mt7620/openwrt-sdk-22.03.3-ramips-mt7620_gcc-11.2.0_musl.Linux-x86_64.tar.xz . You can browse and obtain link for the needed sdk [here](https://downloads.openwrt.org/releases/) 
+This repo helps you to generate a <a href="https://github.com/IchthysMaranatha/asterisk-chan-quectel"> chan-quectel </a> openwrt binary for any platform by running a github action. Fork this repository and then run the github action providing link to openwrt sdk for the platform required. For example to generate binary for the we826 router running on openwrt 22, you would have to provide sdk link https://downloads.openwrt.org/releases/22.03.3/targets/ramips/mt7620/openwrt-sdk-22.03.3-ramips-mt7620_gcc-11.2.0_musl.Linux-x86_64.tar.xz . You can browse and obtain link for the needed sdk [here](https://downloads.openwrt.org/releases/) 
 
 This will generate chan-quectel binary for the master branch of the chan-quectel repo. However, you can edit the makefile to generate the binary for any repo or branch. For eg, to generate binary for the quectel dtmf branch for openwrt 22, edit the file [here](https://github.com/IchthysMaranatha/chan-quectel-openwrt-generator/blob/main/openwrt/urlmakefile/current/Ast18/chanq/Makefile) and change foll lines
 
-PKG_SOURCE:=master.zip
+PKG_SOURCE:=master.zip <br>
 PKG_SOURCE_URL:=https://github.com/IchthysMaranatha/asterisk-chan-quectel/archive/refs/heads/
 
 to 
 
-PKG_SOURCE:=QuectelDTMFforIMS.zip
+PKG_SOURCE:=QuectelDTMFforIMS.zip <br>
 PKG_SOURCE_URL:=https://github.com/IchthysMaranatha/asterisk-chan-quectel/archive/refs/heads/
 
 The link is the zip download link found in the <> Code dropdown broken up into filename and the rest of the link

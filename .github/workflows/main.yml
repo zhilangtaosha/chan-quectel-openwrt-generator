@@ -31,7 +31,7 @@ jobs:
         run: |
           env
           echo ${{ steps.regex-match.outputs.group1 }}
-          sudo apt install -y libncurses5-dev libncursesw5-dev zlib1g-dev gawk gettext libssl-dev xsltproc rsync unzip python
+          sudo apt install -y libncurses5-dev libncursesw5-dev zlib1g-dev gawk gettext libssl-dev xsltproc rsync unzip python-is-python3
           wget -q ${{ github.event.inputs.sdkurl }}
           tar -xf $(basename ${{ github.event.inputs.sdkurl }})
           mv $(basename ${{ github.event.inputs.sdkurl }} .tar.xz) wrtsdk          

@@ -5,7 +5,7 @@ on:
     inputs:
       sdkurl:
         required: true
-        description: Download url for Openwrt sdk file in tar.xz format
+        description: Download url for Openwrt sdk file in tar.xz or tar.zst format
       astversion:
         type: choice
         description: Choose Asterisk version - make sure it corresponds with Openwrt version chosen
@@ -13,7 +13,9 @@ on:
         - $GITHUB_WORKSPACE/openwrt/urlmakefile/current/Ast20
         - $GITHUB_WORKSPACE/openwrt/urlmakefile/current/Ast18
         - $GITHUB_WORKSPACE/openwrt/urlmakefile/current/ast16 
-
+env:
+  exten: ${{ endsWith( github.event.inputs.sdkurl , 'zst' ) && '.tar.zst' || '.tar.xz'}}
+  zsad: ${{ endsWith( github.event.inputs.sdkurl , 'zst' ) && '--zstd' || ''}}
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -32,10 +34,10 @@ jobs:
           env
           echo ${{ steps.regex-match.outputs.group1 }}
           sudo apt update
-          sudo apt install -y libncurses5-dev libncursesw5-dev zlib1g-dev gawk gettext libssl-dev xsltproc rsync unzip python-is-python3
+          sudo apt install -y libncurses5-dev libncursesw5-dev zlib1g-dev gawk gettext libssl-dev xsltproc rsync unzip python-is-python3 zstd
           wget -q ${{ github.event.inputs.sdkurl }}
-          tar -xf $(basename ${{ github.event.inputs.sdkurl }})
-          mv $(basename ${{ github.event.inputs.sdkurl }} .tar.xz) wrtsdk          
+          tar ${{ env.zsad }} -xf $(basename ${{ github.event.inputs.sdkurl }})
+          mv $(basename ${{ github.event.inputs.sdkurl }} ${{ env.exten }}) wrtsdk          
           echo "src-link cusrepo ${{ github.event.inputs.astversion }}" > wrtsdk/feeds.conf
           export pkgdir=${{ github.event.inputs.astversion }}
           cd wrtsdk

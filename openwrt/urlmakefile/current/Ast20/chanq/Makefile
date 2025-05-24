@@ -8,8 +8,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=asterisk-chan-quectel
-PKG_VERSION:=master
-PKG_RELEASE:=master
+PKG_VERSION:=OPDTMFforIMS
+PKG_RELEASE:=OPDTMFforIMS
 
 PKG_SOURCE:=OPDTMFforIMS.zip
 PKG_SOURCE_URL:=https://github.com/zhilangtaosha/asterisk-chan-quectel/archive/refs/heads/

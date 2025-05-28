@@ -8,11 +8,11 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=asterisk-chan-quectel
-PKG_VERSION:=master
-PKG_RELEASE:=master
+PKG_VERSION:=OPDTMFforIMS
+PKG_RELEASE:=OPDTMFforIMS
 
-PKG_SOURCE:=master.zip
-PKG_SOURCE_URL:=https://github.com/IchthysMaranatha/asterisk-chan-quectel/archive/refs/heads/
+PKG_SOURCE:=OPDTMFforIMS.zip
+PKG_SOURCE_URL:=https://github.com/zhilangtaosha/asterisk-chan-quectel/archive/refs/heads/
 PKG_CAT:=unzip
 PKG_HASH:=skip
 
@@ -72,7 +72,7 @@ endef
 
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/etc/asterisk
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/etc/quectel.conf $(1)/etc/asterisk
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/uac/quectel.conf $(1)/etc/asterisk
 	$(INSTALL_DIR) $(1)$(MODULES_DIR)
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/chan_quectel.so $(1)$(MODULES_DIR)
 endef
